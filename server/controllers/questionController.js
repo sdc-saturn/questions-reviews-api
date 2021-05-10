@@ -23,11 +23,10 @@ module.exports = {
     const payload = {
       ...req.body,
       product_id: req.params.product_id,
-      question_date: new Date()
+      question_date: new Date().toISOString().slice(0, 10)
     }
     helpers.addQuestion(payload)
     .then((response) => {
-      console.log(response, 'res')
       res.status(201).end()
     })
     .catch((err) => res.status(404).send(err))
@@ -35,7 +34,8 @@ module.exports = {
   addAnswer: (req, res) => {
     const payload = {
       ...req.body,
-      product_id: req.params.question_id
+      question_id: req.params.question_id,
+      date: new Date().toISOString().slice(0, 10)
     }
     helpers.addAnswer(payload)
     .then((response) => {

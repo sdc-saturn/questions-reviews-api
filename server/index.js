@@ -18,3 +18,5 @@ app.use('/qa', answerRoutes);
 app.listen(port, () => {
   console.log(`Running pn http://localhost:${port}`)
 });
+
+module.exports = app;

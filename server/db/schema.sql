@@ -3,7 +3,7 @@ CREATE TABLE questions (
   question_id SERIAL PRIMARY KEY NOT NULL,
   product_id INT,
   question_body VARCHAR,
-  question_date TIMESTAMP,
+  question_date DATE,
   asker_name VARCHAR(100),
   asker_email VARCHAR(100),
   reported BOOLEAN,
@@ -12,9 +12,9 @@ CREATE TABLE questions (
 
 CREATE TABLE answers (
   answer_id SERIAL PRIMARY KEY NOT NULL,
-  question_id INT REFERENCES questions(id),
+  question_id INT REFERENCES questions(question_id),
   body VARCHAR,
-  date TIMESTAMP,
+  date DATE,
   answerer_name VARCHAR(100),
   answerer_email VARCHAR(100),
   reported BOOLEAN,
@@ -24,6 +24,6 @@ CREATE TABLE answers (
 
 CREATE TABLE answers_photos (
   id SERIAL PRIMARY KEY NOT NULL,
-  answer_id INT REFERENCES answers(id),
+  answer_id INT REFERENCES answers(answer_id),
   url VARCHAR
 );

@@ -62,20 +62,10 @@ const getAnswers = async (id) => {
 }
 
 const addQuestion = async (payload) => {
-  // return new Promise((resolve, reject) => {
-  //   pool.query(`INSERT INTO questions (product_id, question_body, asker_name, asker_email) VALUES (${product_id}, ${question_body}, ${asker_name}, ${asker_email});`, (err, results) => {
-  //     if(err) {
-  //       reject(err);
-  //     }
-  //     resolve(results);
-  //   })
-  // })
   try {
-    const { question_body, asker_name, asker_email, product_id} = payload;
-    const insert = await pool.query(`INSERT INTO questions(product_id, question_body, asker_name, asker_email)
-                                      VALUES (${product_id}, ${question_body}, ${asker_name}, ${asker_email})
-                                      RETURNING *;`);
-    console.log(insert, 'ins')
+    const { product_id, question_body, asker_name, asker_email, question_date } = payload;
+    const insert = await pool.query(`INSERT INTO questions(product_id, question_body, asker_name, asker_email, question_date)
+                                      VALUES (${product_id}, '${question_body}', '${asker_name}', '${asker_email}', '${question_date}');`);
     return insert;
   } catch(err) {
     console.log({err})
@@ -83,12 +73,14 @@ const addQuestion = async (payload) => {
 }
 const addAnswer = async (payload) => {
   try {
-    const { body, name, email, question_id, photos} = payload;
-    const insertAnswer = await pool.query(`INSERT INTO answers(question_id, body, answerer_name, answerer_email)
-                                      VALUES (${question_id}, ${body}, ${answerer_name}, ${answerer_email})
-                                      RETURNING answer_id;`);
-    console.log(insert, 'ins')
-    const insertPhotos = Promise.all(photos.map(p => pool.query(`INSERT INTO answer_photos anser_photos, url VALUES ${insertAnswer}, ${p};`)))
+    const { question_id, body, answerer_name, answerer_email, date, photos } = payload;
+    const insert = await pool.query(`INSERT INTO answers(question_id, body, answerer_name, answerer_email, date)
+                                      VALUES (${question_id}, '${body}', '${answerer_name}', '${answerer_email}', '${date}') RETURNING answer_id;`);
+    const { answer_id } = insert.rows[0];
+    const parsePhotos = JSON.parse(photos);
+    if(photos.length > 0) {
+      const insertPhotos = parsePhotos.map(p => pool.query(`INSERT INTO answers_photos(answer_id, url) VALUES (${answer_id}, '${p}');`))
+    }
     return insert;
   } catch(err) {
     console.log({err})

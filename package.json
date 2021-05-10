@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --timeout 10000",
+    "test-coverage": "DEBUG=true nyc mocha ./test/api.coverage.js --exit --inspect=0.0.0.0:9229 --timeout 120000",
     "start": "nodemon server"
   },
   "repository": {
@@ -24,6 +25,11 @@
     "pg": "^8.6.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "chai": "^4.3.4",
+    "istanbul": "^0.4.5",
+    "mocha": "^8.4.0",
+    "nodemon": "^2.0.7",
+    "nyc": "^15.1.0",
+    "supertest": "^6.1.3"
   }
 }
