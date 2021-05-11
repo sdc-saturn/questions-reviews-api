@@ -1,5 +1,3 @@
-// const pool = require('./server/db/db.js');
-
 let app = require('../server/index.js');
 let chai = require('chai');
 let request = require('supertest');
