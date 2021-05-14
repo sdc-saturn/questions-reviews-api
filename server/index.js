@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-
+require('dotenv').config();
 const app = express();
 const port = 3000;
 const questionRoutes = require('./routes/questionRoutes');
@@ -16,7 +16,7 @@ app.use('/qa', questionRoutes);
 app.use('/qa', answerRoutes);
 
 app.listen(port, () => {
-  console.log(`Running pn http://localhost:${port}`)
+  console.log(`Running on http://localhost:${port}`)
 });
 
 module.exports = app;
