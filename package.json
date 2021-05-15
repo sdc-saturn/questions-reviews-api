@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha --timeout 10000",
     "test-coverage": "DEBUG=true nyc mocha ./test/api.coverage.js --exit --inspect=0.0.0.0:9229 --timeout 120000",
-    "start": "nodemon server"
+    "start": "nodemon server",
+    "forever": "forever start ./server/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "body-parser": "^1.19.0",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
+    "forever": "^3.0.4",
     "k6": "0.0.0",
     "morgan": "^1.10.0",
     "node-cache": "^5.1.2",
