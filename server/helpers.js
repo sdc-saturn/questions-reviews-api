@@ -1,5 +1,5 @@
 const pool = require('./db/db.js')
-console.log({pool})
+
 const getQuestions = async (id) => {
   try {
     const payload = {};
