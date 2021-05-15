@@ -1,13 +1,19 @@
 const pool = require('../db/db.js');
 const helpers = require('../helpers');
+const nodeCache = require('node-cache');
+const cache = new nodeCache({ maxKeys: 100 });
 
 module.exports = {
 
   getQuestions: (req, res) => {
     const { product_id } = req.params;
+    if(cache.has(product_id)) {
+      res.status(200).send(cache.get(product_id));
+    }
     helpers.getQuestions(product_id)
     .then((response) => {
-      res.status(200).send(response)
+      cache.set(product_id, response);
+      res.status(200).send(response);
     })
     .catch((err) => res.status(404).send(err))
   },
