@@ -19,8 +19,12 @@ module.exports = {
   },
   getAnswers: (req, res) => {
     const { question_id } = req.params;
+    if(cache.has(question_id)) {
+      res.status(200).send(cache.get(question_id));
+    }
     helpers.getAnswers(question_id)
     .then((response) => {
+      cache.set(question_id, response);
       res.status(200).send(response)
     })
     .catch((err) => res.status(404).send(err))
